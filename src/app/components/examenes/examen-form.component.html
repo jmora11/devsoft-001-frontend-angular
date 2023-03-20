@@ -5,11 +5,11 @@
 
         <form>
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" class="form-control" id="nombre" 
-                [(ngModel)]="model.nombre">
-                <div class="alert alert-danger" *ngIf="error?.nombre">
-                  {{ error.nombre }}
+                <label for="name">Nombre</label>
+                <input type="text" name="name" class="form-control" id="name" 
+                [(ngModel)]="model.name">
+                <div class="alert alert-danger" *ngIf="error?.name">
+                  {{ error.name }}
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                 name="asignaturaPadre" id="asignaturaPadre">
                    <option [ngValue]="undefined">--- seleccionar una asignatura ---</option>
                    <option *ngFor="let asignatura of asignaturasPadre" 
-                   [ngValue]="asignatura">{{asignatura.nombre}}</option>
+                   [ngValue]="asignatura">{{asignatura.name}}</option>
             
             </select>
             <div class="alert alert-danger" *ngIf="error?.asignaturaPadre">
@@ -36,7 +36,7 @@
                 name="asignaturaHija" id="asignaturaHija">
                    <option [ngValue]="undefined">--- seleccionar una asignatura ---</option>
                    <option *ngFor="let asignatura of asignaturasHija" 
-                   [ngValue]="asignatura">{{asignatura.nombre}}</option>
+                   [ngValue]="asignatura">{{asignatura.name}}</option>
             
             </select>
             <div class="alert alert-danger" *ngIf="error?.asignaturaHija">
@@ -55,7 +55,7 @@
                       <label>Pregunta {{i+1}}:</label>
                     </div>
                     <div class="col-sm-6">
-                       <input type="text" value="{{pregunta.texto}}" class="form-control"
+                       <input type="text" value="{{pregunta.text}}" class="form-control"
                        (change)="asignarTexto(pregunta, $event)">
                     </div>
                     <div class="col-sm-1">
@@ -72,7 +72,7 @@
 
             <div class="form-group">
                 <button type="button" class="btn btn-primary" 
-                (click)="model.id? editar(): crear()">
+                (click)="model.id? editarExamen(): crear()">
                     {{ model.id? 'Editar': 'Crear' }}
                 </button>
             </div>

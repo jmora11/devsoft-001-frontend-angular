@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Curso {{curso.nombre}}</h1>
+<h1 mat-dialog-title>Curso {{curso.name}}</h1>
 <div mat-dialog-content>
-  <p>Examen {{examen.nombre}}</p>
+  <p>Examen {{examen.name}}</p>
 
   <mat-expansion-panel *ngFor="let respuesta of respuestas">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{respuesta.pregunta.texto}}
+        {{respuesta.pregunta.text}}
       </mat-panel-title>
       <mat-panel-description></mat-panel-description>
     </mat-expansion-panel-header>

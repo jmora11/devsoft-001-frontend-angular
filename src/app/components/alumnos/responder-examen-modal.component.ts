@@ -20,27 +20,30 @@ export class ResponderExamenModalComponent implements OnInit {
   respuestas: Map<number, Respuesta> = new Map<number, Respuesta>();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-  public modalRef: MatDialogRef<ResponderExamenModalComponent>) { }
+              public modalRef: MatDialogRef<ResponderExamenModalComponent> ) { }
 
   ngOnInit(): void {
     this.curso = this.data.curso as Curso;
+    console.log('Curso',  this.curso);
     this.alumno = this.data.alumno as Alumno;
+    console.log('alumno',  this.alumno);
     this.examen = this.data.examen as Examen;
+    console.log('examen',  this.examen);
   }
 
-  cancelar(): void{
+  cancelar(): void {
     this.modalRef.close();
   }
 
   responder(pregunta: Pregunta, event): void {
     const texto = event.target.value as string;
     const respuesta  = new Respuesta();
-    respuesta.alumno = this.alumno;
+    respuesta.student = this.alumno;
     respuesta.pregunta = pregunta;
 
     const examen = new Examen();
     examen.id = this.examen.id;
-    examen.nombre = this.examen.nombre;
+    examen.name = this.examen.name;
 
     respuesta.pregunta.examen = examen;
     respuesta.texto = texto;

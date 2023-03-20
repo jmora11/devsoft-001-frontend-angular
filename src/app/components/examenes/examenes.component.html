@@ -20,10 +20,10 @@
             <tbody>
                 <tr *ngFor="let examen of lista">
                     <td>{{examen.id}}</td>
-                    <td>{{examen.nombre}}</td>
-                    <td>{{examen.asignaturaHija?.padre.nombre}} -> {{examen.asignaturaHija?.nombre}}</td>
+                    <td>{{examen.name}}</td>
+                    <td>{{examen.asignaturaHija?.padre.name}} -> {{examen.asignaturaHija?.name}}</td>
                     <td>{{examen.preguntas.length}}</td>
-                    <td>{{examen.createAt | date: 'yyyy/MM/dd'}}</td>
+                    <td>{{examen.createdAt | date: 'yyyy/MM/dd'}}</td>
                     <td><button class="btn btn-secondary btn-sm" 
                         [routerLink]="['/examenes/form', examen.id]">
                         editar

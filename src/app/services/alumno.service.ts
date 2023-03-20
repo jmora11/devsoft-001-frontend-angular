@@ -8,36 +8,36 @@ import { BASE_ENDPOINT } from '../config/app';
 @Injectable({
   providedIn: 'root'
 })
-export class AlumnoService extends CommonService<Alumno>{
+export class AlumnoService extends CommonService<Alumno> {
 
-  protected baseEndpoint = BASE_ENDPOINT + '/alumnos';
+  protected baseEndpoint = BASE_ENDPOINT + '/students';
 
   constructor(http: HttpClient) {
     super(http);
    }
 
-   public crearConFoto(alumno: Alumno, archivo: File): Observable<Alumno>{
+   public crearConFoto(alumno: Alumno, archivo: File): Observable<Alumno> {
      const formData = new FormData();
      formData.append('archivo', archivo);
-     formData.append('nombre', alumno.nombre);
-     formData.append('apellido', alumno.apellido);
+     formData.append('name', alumno.name);
+     formData.append('lastName', alumno.lastName);
      formData.append('email', alumno.email);
-     return this.http.post<Alumno>(this.baseEndpoint + '/crear-con-foto',
+     return this.http.post<Alumno>(this.baseEndpoint + '/add/photo',
       formData);
    }
 
-   public editarConFoto(alumno: Alumno, archivo: File): Observable<Alumno>{
+   public editarConFoto(alumno: Alumno, archivo: File): Observable<Alumno> {
     const formData = new FormData();
     formData.append('archivo', archivo);
-    formData.append('nombre', alumno.nombre);
-    formData.append('apellido', alumno.apellido);
+    formData.append('name', alumno.name);
+    formData.append('lastName', alumno.lastName);
     formData.append('email', alumno.email);
-    return this.http.put<Alumno>(`${this.baseEndpoint}/editar-con-foto/${alumno.id}`,
+    return this.http.put<Alumno>(`${this.baseEndpoint}/update/photo/${alumno.id}`,
      formData);
   }
 
-  public filtrarPorNombre(nombre: string): Observable<Alumno[]>{
-    return this.http.get<Alumno[]>(`${this.baseEndpoint}/filtrar/${nombre}`);
+  public filtrarPorNombre(nombre: string): Observable<Alumno[]> {
+    console.log('name', nombre);
+    return this.http.get<Alumno[]>(`${this.baseEndpoint}/filter/${nombre}`);
   }
-
 }

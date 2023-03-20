@@ -10,39 +10,39 @@ import { Examen } from '../models/examen';
 @Injectable({
   providedIn: 'root'
 })
-export class CursoService extends CommonService<Curso>{
+export class CursoService extends CommonService<Curso> {
 
-  protected baseEndpoint = BASE_ENDPOINT + '/cursos';
+  protected baseEndpoint = BASE_ENDPOINT + '/courses';
 
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient) {
     super(http);
   }
 
-  asignarAlumnos(curso: Curso, alumnos: Alumno[]): Observable<Curso>{
-    return this.http.put<Curso>(`${this.baseEndpoint}/${curso.id}/asignar-alumnos`,
+  asignarAlumnos(curso: Curso, alumnos: Alumno[]): Observable<Curso> {
+    return this.http.put<Curso>(`${this.baseEndpoint}/asign-student/${curso.id}`,
      alumnos,
      {headers: this.cabeceras});
   }
 
   eliminarAlumno(curso: Curso, alumno: Alumno): Observable<Curso> {
-    return this.http.put<Curso>(`${this.baseEndpoint}/${curso.id}/eliminar-alumno`,
+    return this.http.put<Curso>(`${this.baseEndpoint}/delete-student/${curso.id}`,
     alumno,
     {headers: this.cabeceras});
   }
 
-  asignarExamenes(curso: Curso, examenes: Examen[]): Observable<Curso>{
-    return this.http.put<Curso>(`${this.baseEndpoint}/${curso.id}/asignar-examenes`,
+  asignarExamenes(curso: Curso, examenes: Examen[]): Observable<Curso> {
+    return this.http.put<Curso>(`${this.baseEndpoint}/asign-exam/${curso.id}`,
     examenes,
     {headers: this.cabeceras});
   }
 
-  eliminarExamen(curso: Curso, examen: Examen):Observable<Curso>{
+  eliminarExamen(curso: Curso, examen: Examen): Observable<Curso> {
     return this.http.put<Curso>(`${this.baseEndpoint}/${curso.id}/eliminar-examen`,
     examen,
     {headers: this.cabeceras});
   }
 
   obtenerCursoPorAlumnoId(alumno: Alumno): Observable<Curso> {
-    return this.http.get<Curso>(`${this.baseEndpoint}/alumno/${alumno.id}`);
+    return this.http.get<Curso>(`${this.baseEndpoint}/student-course/${alumno.id}`);
   }
 }

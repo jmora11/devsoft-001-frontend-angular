@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './examen-form.component.html',
   styleUrls: ['./examen-form.component.css']
 })
-export class ExamenFormComponent 
+export class ExamenFormComponent
 extends CommonFormComponent<Examen, ExamenService> implements OnInit {
 
   asignaturasPadre: Asignatura[] = [];
@@ -21,26 +21,23 @@ extends CommonFormComponent<Examen, ExamenService> implements OnInit {
 
   errorPreguntas: string;
 
-  constructor(service: ExamenService,
-    router: Router,
-    route: ActivatedRoute) {
+  constructor(service: ExamenService, router: Router, route: ActivatedRoute) {
       super(service, router, route);
       this.titulo = 'Crear Examen';
       this.model = new Examen();
       this.nombreModel = Examen.name;
       this.redirect = '/examenes';
-
      }
 
      ngOnInit() {
       this.route.paramMap.subscribe(params => {
         const id: number = +params.get('id');
-        if(id){
+        if (id) {
           this.service.ver(id).subscribe(m => {
             this.model = m;
             this.titulo = 'Editar ' + this.nombreModel;
             this.cargarHijos();
-            /*this.service.findAllAsignatura().subscribe(asignaturas => 
+            /*this.service.findAllAsignatura().subscribe(asignaturas =>
               this.asignaturasHija = asignaturas
               .filter(a => a.padre && a.padre.id === this.model.asignaturaPadre.id));
               */
@@ -49,15 +46,14 @@ extends CommonFormComponent<Examen, ExamenService> implements OnInit {
       });
 
       this.service.findAllAsignatura()
-      .subscribe(asignaturas => 
+      .subscribe(asignaturas =>
         this.asignaturasPadre = asignaturas.filter(a => !a.padre));
 
     }
 
     public crear(): void {
-      if(this.model.preguntas.length === 0){
+      if (this.model.preguntas.length === 0) {
         this.errorPreguntas = 'Examen debe tener preguntas';
-        //Swal.fire('Error Preguntas', 'Examen debe tener preguntas', 'error');
         return;
       }
       this.errorPreguntas = undefined;
@@ -66,9 +62,8 @@ extends CommonFormComponent<Examen, ExamenService> implements OnInit {
     }
 
     public editar(): void {
-      if(this.model.preguntas.length === 0){
+      if (this.model.preguntas.length === 0) {
         this.errorPreguntas = 'Examen debe tener preguntas';
-        //Swal.fire('Error Preguntas', 'Examen debe tener preguntas', 'error');
         return;
       }
       this.errorPreguntas = undefined;
@@ -76,14 +71,24 @@ extends CommonFormComponent<Examen, ExamenService> implements OnInit {
       super.editar();
     }
 
+    public editarExamen(): void {
+      if (this.model.preguntas.length === 0) {
+        this.errorPreguntas = 'Examen debe tener preguntas';
+        return;
+      }
+      this.errorPreguntas = undefined;
+      this.eliminarPreguntasVacias();
+      super.editarExamen();
+    }
+
     cargarHijos(): void {
-      this.asignaturasHija = this.model.asignaturaPadre? 
-      this.model.asignaturaPadre.hijos:
+      this.asignaturasHija = this.model.asignaturaPadre ?
+      this.model.asignaturaPadre.hijos :
        [];
     }
 
-    compararAsignatura(a1: Asignatura, a2: Asignatura): boolean{
-      if(a1===undefined && a2===undefined){
+    compararAsignatura(a1: Asignatura, a2: Asignatura): boolean {
+      if ( a1 === undefined && a2 === undefined) {
         return true;
       }
 
@@ -95,17 +100,17 @@ extends CommonFormComponent<Examen, ExamenService> implements OnInit {
       this.model.preguntas.push(new Pregunta());
     }
 
-    asignarTexto(pregunta: Pregunta, event: any):void {
-      pregunta.texto = event.target.value as string;
+    asignarTexto(pregunta: Pregunta, event: any): void {
+      pregunta.text = event.target.value as string;
       console.log(this.model);
     }
 
-    eliminarPregunta(pregunta):void{
-      this.model.preguntas = this.model.preguntas.filter(p => pregunta.texto !== p.texto);
+    eliminarPregunta(pregunta): void {
+      this.model.preguntas = this.model.preguntas.filter(p => pregunta.texto !== p.text);
     }
 
-    eliminarPreguntasVacias(): void{
-      this.model.preguntas = this.model.preguntas.filter(p => p.texto !=null && p.texto.length > 0);
+    eliminarPreguntasVacias(): void {
+      this.model.preguntas = this.model.preguntas.filter(p => p.text != null && p.text.length > 0);
     }
 
 }

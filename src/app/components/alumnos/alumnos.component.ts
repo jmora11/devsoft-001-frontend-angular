@@ -9,11 +9,11 @@ import { BASE_ENDPOINT } from '../../config/app';
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.css']
 })
-export class AlumnosComponent 
+export class AlumnosComponent
 extends CommonListarComponent<Alumno, AlumnoService> implements OnInit {
 
-  baseEndpoint = BASE_ENDPOINT + '/alumnos';
-  
+  baseEndpoint = BASE_ENDPOINT + '/students';
+
   constructor(service: AlumnoService) {
     super(service);
     this.titulo = 'Listado de Alumnos';

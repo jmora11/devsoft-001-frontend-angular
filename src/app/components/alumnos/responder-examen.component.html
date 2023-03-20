@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-header *ngIf="curso">
         <mat-card-title>
-            Examenes del curso {{curso.nombre}}
+            Examenes del curso {{curso.name}}
         </mat-card-title>
     </mat-card-header>
 
@@ -14,15 +14,15 @@
                 <td mat-cell *matCellDef="let examen"> {{examen.id}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="nombre">
+            <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                <td mat-cell *matCellDef="let examen"> {{examen.nombre}} </td>
+                <td mat-cell *matCellDef="let examen"> {{examen.name}} </td>
             </ng-container>
 
             <ng-container matColumnDef="asignaturas">
                 <th mat-header-cell *matHeaderCellDef> Asignatura </th>
                 <td mat-cell *matCellDef="let examen">
-                    {{examen.asignaturaPadre.nombre}} -> {{examen.asignaturaHija.nombre}}
+                    {{examen.asignaturaPadre.name}} -> {{examen.asignaturaHija.name}}
                 </td>
             </ng-container>
 

@@ -2,6 +2,6 @@ import { Examen } from './examen';
 
 export class Pregunta {
     id: number;
-    texto: string;
+    text: string;
     examen: Examen;
 }

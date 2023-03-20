@@ -20,16 +20,16 @@
             <tbody>
                 <tr *ngFor="let curso of lista">
                     <td>{{curso.id}}</td>
-                    <td>{{curso.nombre}}</td>
+                    <td>{{curso.name}}</td>
                     <th><button class="btn btn-info btn-sm"
                         [routerLink]="['/cursos/asignar-alumnos', curso.id]">
-                    añadir ({{curso.alumnos.length}})
+                    añadir ({{curso.students.length}})
                     </button></th>
                     <th><button class="btn btn-info btn-sm"
                         [routerLink]="['/cursos/asignar-examenes', curso.id]">
                         añadir ({{curso.examenes.length}})
                     </button></th>
-                    <td>{{curso.createAt | date: 'yyyy/MM/dd'}}</td>
+                    <td>{{curso.createdAt | date: 'yyyy/MM/dd'}}</td>
                     <td><button class="btn btn-secondary btn-sm" 
                         [routerLink]="['/cursos/form', curso.id]">
                         editar

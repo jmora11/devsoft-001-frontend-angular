@@ -31,19 +31,20 @@ export class AsignarExamenesComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   pageSizeOptions = [3, 5, 10, 20, 50];
 
-  mostrarColumnas = ['nombre', 'asignatura', 'eliminar'];
-  mostrarColumnasExamenes = ['id', 'nombre', 'asignaturas', 'eliminar'];
+  mostrarColumnas = ['name', 'asignatura', 'eliminar'];
+  mostrarColumnasExamenes = ['id', 'name', 'asignaturas', 'eliminar'];
   tabIndex = 0;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private cursoService: CursoService,
-    private examenService: ExamenService) { }
+              private router: Router,
+              private cursoService: CursoService,
+              private examenService: ExamenService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id: number = +params.get('id');
       this.cursoService.ver(id).subscribe(c => {
+        console.log('ver', c );
         this.curso = c;
         this.examenes = this.curso.examenes;
         this.iniciarPaginador();
@@ -58,14 +59,14 @@ export class AsignarExamenesComponent implements OnInit {
     ).subscribe(examenes => this.examenesFiltrados = examenes);
   }
 
-  private iniciarPaginador(){
+  private iniciarPaginador() {
     this.dataSource = new MatTableDataSource<Examen>(this.examenes);
     this.dataSource.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Registros por página';
   }
 
   mostrarNombre(examen?: Examen): string {
-    return examen ? examen.nombre : '';
+    return examen ? examen.name : '';
   }
 
   seleccionarExamen(event: MatAutocompleteSelectedEvent): void {
@@ -78,7 +79,7 @@ export class AsignarExamenesComponent implements OnInit {
     } else {
       Swal.fire(
         'Error:',
-        `El examen ${examen.nombre} ya está asignado al curso`,
+        `El examen ${examen.name} ya está asignado al curso`,
         'error'
       );
     }
@@ -99,9 +100,9 @@ export class AsignarExamenesComponent implements OnInit {
     return existe;
   }
 
-  eliminarDelAsignar(examen: Examen){
+  eliminarDelAsignar(examen: Examen) {
     this.examenesAsignar = this.examenesAsignar.filter(
-      e=> examen.id !== e.id
+      e => examen.id !== e.id
     );
   }
 
@@ -115,17 +116,17 @@ export class AsignarExamenesComponent implements OnInit {
 
       Swal.fire(
         'Asignados:',
-        `Examenes asignado con éxito al curso ${curso.nombre}`,
+        `Examenes asignado con éxito al curso ${curso.name}`,
         'success'
       );
       this.tabIndex = 2;
-    })
+    });
   }
 
   eliminarExamenDelCurso(examen: Examen): void {
     Swal.fire({
       title: 'Cuidado:',
-      text: `¿Seguro que desea eliminar a ${examen.nombre} ?`,
+      text: `¿Seguro que desea eliminar a ${examen.name} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -140,14 +141,11 @@ export class AsignarExamenesComponent implements OnInit {
           this.iniciarPaginador();
           Swal.fire(
             'Eliminado:',
-            `Examen ${examen.nombre} eliminado con éxito del curso ${curso.nombre}.`,
+            `Examen ${examen.name} eliminado con éxito del curso ${curso.name}.`,
             'success'
           );
-        });    
-
+        });
       }
     });
-
   }
-
 }

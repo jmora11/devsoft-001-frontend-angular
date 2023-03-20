@@ -16,7 +16,7 @@ export class VerExamenModalComponent implements OnInit {
   respuestas: Respuesta[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-  public modalRef: MatDialogRef<VerExamenModalComponent>) { }
+              public modalRef: MatDialogRef<VerExamenModalComponent>) { }
 
   ngOnInit(): void {
     this.curso = this.data.curso as Curso;

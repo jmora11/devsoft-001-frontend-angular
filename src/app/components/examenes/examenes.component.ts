@@ -8,7 +8,7 @@ import { ExamenService } from 'src/app/services/examen.service';
   templateUrl: './examenes.component.html',
   styleUrls: ['./examenes.component.css']
 })
-export class ExamenesComponent 
+export class ExamenesComponent
 extends CommonListarComponent<Examen, ExamenService> implements OnInit {
 
   constructor(service: ExamenService) {

@@ -1,4 +1,4 @@
 export interface Generic {
     id: number;
-    nombre: string;
+    name: string;
 }

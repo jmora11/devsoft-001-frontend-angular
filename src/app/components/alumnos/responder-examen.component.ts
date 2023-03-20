@@ -25,7 +25,7 @@ export class ResponderExamenComponent implements OnInit {
   curso: Curso;
   examenes: Examen[] = [];
 
-  mostrarColumnasExamenes = ['id', 'nombre', 'asignaturas', 'preguntas', 'responder', 'ver'];
+  mostrarColumnasExamenes = ['id', 'name', 'asignaturas', 'preguntas', 'responder', 'ver'];
 
   pageSizeOptions = [3, 5, 10, 20, 30, 50];
 
@@ -33,10 +33,10 @@ export class ResponderExamenComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private route: ActivatedRoute,
-    private alumnoService: AlumnoService,
-    private cursoService: CursoService,
-    private respuestaService: RespuestaService,
-    public dialog: MatDialog) { }
+              private alumnoService: AlumnoService,
+              private cursoService: CursoService,
+              private respuestaService: RespuestaService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -46,7 +46,7 @@ export class ResponderExamenComponent implements OnInit {
         this.cursoService.obtenerCursoPorAlumnoId(this.alumno).subscribe(
           curso => {
             this.curso = curso;
-            this.examenes = (curso && curso.examenes)? curso.examenes: [];
+            this.examenes = (curso && curso.examenes) ? curso.examenes : [];
             this.dataSource = new MatTableDataSource<Examen>(this.examenes);
             this.dataSource.paginator = this.paginator;
             this.paginator._intl.itemsPerPageLabel = 'Registros por página:';
@@ -54,21 +54,20 @@ export class ResponderExamenComponent implements OnInit {
         );
       });
     });
-    
   }
 
-  responderExamen(examen: Examen): void{
+  responderExamen(examen: Examen): void {
     const modalRef = this.dialog.open(ResponderExamenModalComponent, {
       width: '750px',
-      data: {curso: this.curso, alumno: this.alumno, examen: examen}
+      data: {curso: this.curso, alumno: this.alumno, examen }
     });
 
     modalRef.afterClosed().subscribe((respuestasMap: Map<number, Respuesta>) => {
       console.log('modal responder examen ha sido enviado y cerrado');
       console.log(respuestasMap);
-      if(respuestasMap){
+      if (respuestasMap) {
         const respuestas: Respuesta[] = Array.from(respuestasMap.values());
-        this.respuestaService.crear(respuestas).subscribe(rs =>{
+        this.respuestaService.crear(respuestas).subscribe(rs => {
           examen.respondido = true;
           Swal.fire(
             'Enviadas:',
@@ -84,15 +83,15 @@ export class ResponderExamenComponent implements OnInit {
   verExamen(examen: Examen): void {
     this.respuestaService.obtenerRespuestasPorAlumnoPorExamen(this.alumno, examen)
     .subscribe(rs => {
+      console.log('ress', rs);
       const modalRef = this.dialog.open(VerExamenModalComponent, {
         width: '750px',
-        data: {curso: this.curso, examen: examen, respuestas: rs}
+        data: {curso: this.curso, examen, respuestas: rs}
       });
 
       modalRef.afterClosed().subscribe(() => {
         console.log('Modal ver examen cerrado');
-      })
+      });
     });
   }
-
 }

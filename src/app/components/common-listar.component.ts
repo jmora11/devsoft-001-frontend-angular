@@ -43,7 +43,7 @@ export abstract class CommonListarComponent<E extends Generic, S extends CommonS
 
     Swal.fire({
       title: 'Cuidado:',
-      text: `¿Seguro que desea eliminar a ${e.nombre} ?`,
+      text: `¿Seguro que desea eliminar a ${e.name} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -53,7 +53,7 @@ export abstract class CommonListarComponent<E extends Generic, S extends CommonS
       if (result.value) {
         this.service.eliminar(e.id).subscribe(() => {
           this.calcularRangos();
-          Swal.fire('Eliminado:', `${this.nombreModel} ${e.nombre} eliminado con éxito`, 'success');
+          Swal.fire('Eliminado:', `${this.nombreModel} ${e.name} eliminado con éxito`, 'success');
         });
       }
     });

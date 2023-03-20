@@ -26,41 +26,41 @@ export class AsignarAlumnosComponent implements OnInit {
 
   tabIndex = 0;
 
-  mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
-  mostrarColumnasAlumnos: string[] = ['id', 'nombre', 'apellido', 'email', 'eliminar'];
+  mostrarColumnas: string[] = ['name', 'apellido', 'seleccion'];
+  mostrarColumnasAlumnos: string[] = ['id', 'name', 'apellido', 'email', 'eliminar'];
 
   seleccion: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
 
   constructor(private route: ActivatedRoute,
-    private cursoService: CursoService,
-    private alumnoService: AlumnoService) { }
+              private cursoService: CursoService,
+              private alumnoService: AlumnoService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id: number = +params.get('id');
       this.cursoService.ver(id).subscribe(c => {
         this.curso = c;
-        this.alumnos = this.curso.alumnos;
+        console.log('this.alumnos', this.alumnos)
+        this.alumnos = this.curso.alumnos || [];
         this.iniciarPaginador();
-
       });
     });
   }
 
-  private iniciarPaginador(): void{
+  private iniciarPaginador(): void {
     this.dataSource = new MatTableDataSource<Alumno>(this.alumnos);
     this.dataSource.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Registros por página';
   }
 
-  filtrar(nombre: string):void {
-    nombre = nombre !== undefined? nombre.trim(): '';
-    if(nombre !== ''){
-      this.alumnoService.filtrarPorNombre(nombre)
+  filtrar(name: string): void {
+    name = name !== undefined ? name.trim() : '';
+    if (name !== '') {
+      this.alumnoService.filtrarPorNombre(name)
       .subscribe(alumnos => this.alumnosAsignar = alumnos.filter(a => {
         let filtrar = true;
         this.alumnos.forEach(ca => {
-          if(a.id === ca.id){
+          if (a.id === ca.id) {
             filtrar = false;
           }
         });
@@ -76,19 +76,18 @@ export class AsignarAlumnosComponent implements OnInit {
   }
 
   seleccionarDesSeleccionarTodos(): void {
-    this.estanTodosSeleccionados()?
-    this.seleccion.clear(): 
+    this.estanTodosSeleccionados() ?
+    this.seleccion.clear() :
     this.alumnosAsignar.forEach(a => this.seleccion.select(a));
   }
 
   asignar(): void {
-    console.log(this.seleccion.selected);
     this.cursoService.asignarAlumnos(this.curso, this.seleccion.selected)
     .subscribe(c => {
       this.tabIndex = 2;
       Swal.fire(
         'Asignados:',
-        `Alumnos Asignados con éxito al curso ${this.curso.nombre}`,
+        `Alumnos Asignados con éxito al curso ${this.curso.name}`,
         'success'
       );
       this.alumnos = this.alumnos.concat(this.seleccion.selected);
@@ -97,10 +96,9 @@ export class AsignarAlumnosComponent implements OnInit {
       this.seleccion.clear();
     },
     e => {
-       
-      if(e.status === 500){
+      if (e.status === 500) {
         const mensaje = e.error.message as string;
-        if(mensaje.indexOf('ConstraintViolationException') > -1){
+        if (mensaje.indexOf('ConstraintViolationException') > -1) {
           Swal.fire(
             'Cuidado:',
             'No se puede asignar el alumno ya está asociado a otro curso.',
@@ -115,7 +113,7 @@ export class AsignarAlumnosComponent implements OnInit {
 
     Swal.fire({
       title: 'Cuidado:',
-      text: `¿Seguro que desea eliminar a ${alumno.nombre} ?`,
+      text: `¿Seguro que desea eliminar a ${alumno.name} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -130,15 +128,11 @@ export class AsignarAlumnosComponent implements OnInit {
           this.iniciarPaginador();
           Swal.fire(
             'Eliminado:',
-            `Alumno ${alumno.nombre} eliminado con éxito del curso ${curso.nombre}.`,
+            `Alumno ${alumno.name} eliminado con éxito del curso ${curso.name}.`,
             'success'
           );
-        });    
-
+        });
       }
     });
-
-
   }
-
 }

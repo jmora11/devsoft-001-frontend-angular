@@ -9,19 +9,24 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ExamenService extends CommonService<Examen>{
+export class ExamenService extends CommonService<Examen> {
 
-  protected baseEndpoint = BASE_ENDPOINT + '/examenes';
+  protected baseEndpoint = BASE_ENDPOINT + '/exams';
 
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient) {
     super(http);
   }
 
-  public findAllAsignatura(): Observable<Asignatura[]>{
-    return this.http.get<Asignatura[]>(`${this.baseEndpoint}/asignaturas`);
+  public findAllAsignatura(): Observable<Asignatura[]> {
+    return this.http.get<Asignatura[]>(`${this.baseEndpoint}/asignatures/all`);
   }
 
-  public filtrarPorNombre(nombre: string): Observable<Examen[]>{
-    return this.http.get<Examen[]>(`${this.baseEndpoint}/filtrar/${nombre}`);
+  public filtrarPorNombre(nombre: string): Observable<Examen[]> {
+    return this.http.get<Examen[]>(`${this.baseEndpoint}/filter/${nombre}`);
+  }
+
+  public editarExamen(e: Examen): Observable<Examen> {
+    return this.http.put<Examen>(`${this.baseEndpoint}/update-exam/${e.id}`, e,
+      { headers: this.cabeceras });
   }
 }
