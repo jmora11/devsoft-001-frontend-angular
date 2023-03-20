@@ -40,7 +40,7 @@ export class AsignarAlumnosComponent implements OnInit {
       const id: number = +params.get('id');
       this.cursoService.ver(id).subscribe(c => {
         this.curso = c;
-        console.log('this.alumnos', this.alumnos)
+        console.log('this.alumnos', this.alumnos);
         this.alumnos = this.curso.alumnos || [];
         this.iniciarPaginador();
       });
